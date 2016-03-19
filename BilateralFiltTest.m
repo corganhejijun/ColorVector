@@ -1,4 +1,4 @@
-img = imread('22.jpg');
+img = imread('12003.jpg');
 % %%img = imread('.\images\lena_gray.tif');
 img = double(img)/255;
 % img = img+0.05*randn(size(img));

@@ -16,7 +16,7 @@ end
 
 function resultI = BilateralFiltGray(I,d,sigma)
 
-[m n] = size(I);
+[m, n] = size(I);
 newI = ReflectEdge(I,d);
 resultI = zeros(m,n);
 width = 2*d+1;
@@ -40,7 +40,7 @@ end
 
 function resultI = BilateralFiltColor(I,d,sigma)
 I = applycform(I,makecform('srgb2lab'));
-[m n ~] = size(I);
+[m, n, ~] = size(I);
 newI = ReflectEdge(I,d);
 resultI = zeros(m,n,3);
 width = 2*d+1;

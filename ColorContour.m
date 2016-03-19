@@ -1,21 +1,21 @@
-function colorContour = ColorContour(filePath)
-    fig = imread(filePath);
-    colorContour = zeros(size(fig(:,:,1)));
-    %colorContour2 = zeros(size(fig(:,:,1)));
-    blue    = [0, 0, 255];
-    %red     = [255, 0, 0];
+function colorDistMat = ColorContour(fig)
+% 求图像中每个点的颜色距离
+%%
+% 基本颜色有8种, white, red, green, blue, yellow, cyan, purple, black.
+% 具体值详见ColorVector注释.
+% TODO: 通过聚类方法自动获取图片中的主要颜色种类
+    basicColorType = 8;
+    colorDistMat = zeros([size(fig(:,:,1)), basicColorType]);
     for i = 1 : size(fig, 1)
         for j = 1 : size(fig, 2)
-            if ColorDistance(double(reshape(fig(i, j, :), [1, 3])), blue) > 1
-                colorContour(i, j) = 1;
-            else
-                colorContour(i, j) = 0;
-            end
-            %colorContour2(i, j) = ColorDistance(double(reshape(fig(i, j, :), [1, 3])), red);
+            colorDistMat(i, j, :) = ColorVector(reshape(double(fig(i, j, :)), [1, 3]));
         end
     end
-    figure;
-    surf(colorContour, fig,'edgecolor', 'none','FaceColor','texturemap')
-%     figure;
-%     surf(colorContour2, fig,'edgecolor', 'none','FaceColor','texturemap')
+    
+    colorNames = {'white', 'red', 'green', 'blue', 'yellow', 'cyan', 'purple', 'black'};
+    for i = 1 : basicColorType
+        figure;
+        surf(colorDistMat(:, :, i), fig, 'edgecolor', 'none', 'FaceColor', 'texturemap');
+        title(colorNames(i));
+    end
 end
