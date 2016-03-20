@@ -14,8 +14,9 @@ function colorDistMat = ColorContour(fig)
     
     colorNames = {'white', 'red', 'green', 'blue', 'yellow', 'cyan', 'purple', 'black'};
     for i = 1 : basicColorType
-        figure;
-        surf(colorDistMat(:, :, i), fig, 'edgecolor', 'none', 'FaceColor', 'texturemap');
+        %figure;
+        %surf(colorDistMat(:, :, i), fig, 'edgecolor', 'none', 'FaceColor', 'texturemap');
+        CreateColorContourFigure(colorDistMat(:, :, i), fig);
         title(colorNames(i));
     end
 end
