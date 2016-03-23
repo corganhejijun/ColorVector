@@ -8,14 +8,14 @@ function colorVector = ColorVector(rgbColor)
 %     cyan  = [0, 0, 0, 0, 0, 255, 0, 0];
 %     purple = [0, 0, 0, 0, 0, 0, 255, 0];
 %     black = [0, 0, 0, 0, 0, 0, 0, 255];
-    white   = [0, 0, 0];
+    white   = [255, 255, 255];
     red     = [255, 0, 0];
     green   = [0, 255, 0];
     blue    = [0, 0, 255];
     yellow  = [255, 255, 0];
     cyan    = [0, 255, 255];
     purple  = [255, 0, 255];
-    black   = [255, 255, 255];
+    black   = [0, 0, 0];
     colorVector = [ColorDistance(rgbColor, white), ColorDistance(rgbColor, red), ...
         ColorDistance(rgbColor, green), ColorDistance(rgbColor, blue), ...
         ColorDistance(rgbColor, yellow), ColorDistance(rgbColor, cyan), ...
