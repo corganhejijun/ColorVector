@@ -12,9 +12,10 @@ hold(axes1,'on');
 image(clusterResult,'Parent',axes1,'CDataMapping','scaled');
 
 %% Uncomment the following line to preserve the X-limits of the axes
-% xlim(axes1,[0.5 481.5]);
+[height, width, num] = size(clusterResult);
+xlim(axes1,[0 width]);
 %% Uncomment the following line to preserve the Y-limits of the axes
-% ylim(axes1,[0.5 321.5]);
+ylim(axes1,[0 height]);
 box(axes1,'on');
 axis(axes1,'ij');
 % Set the remaining axes properties

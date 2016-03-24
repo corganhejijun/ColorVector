@@ -6,8 +6,8 @@ addpath(fullfile(pwd,'lib'));
 clear all; close all; clc;
 fileName = '12003.jpg';
 fig = imread(fileName);
-gPb_orient = ColorContour(fig);
-clusterResult = ClusterColorContour(gPb_orient);
+colorDistance = ColorContour(fig);
+clusterResult = ClusterColorContour(colorDistance);
 
 % %% 2. compute Hierarchical Regions
 % 
