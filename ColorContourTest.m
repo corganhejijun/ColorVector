@@ -3,11 +3,12 @@
 addpath(fullfile(pwd,'lib'));
 
 %% 
-clear all; close all; clc;
+clear; close all; clc;
 fileName = '12003.jpg';
 fig = imread(fileName);
 colorDistance = ColorContour(fig);
 clusterResult = ClusterColorContour(colorDistance);
+clusterDiff = DiffClusterColor(clusterResult);
 
 % %% 2. compute Hierarchical Regions
 % 

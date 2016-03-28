@@ -2,15 +2,15 @@ function clusterDiff = DiffClusterColor(clusterResult)
 % 将cluster聚类的结果通过差分计算边缘
 
     %以edgeWidth为宽度的四边形邻域内的像素
-    edgeWidth = max(size(clusterResult)) / 100;
-    clusterDiff = zeros(size(clusterResult));
+    edgeWidth = ceil(max(size(clusterResult)) / 300);
     totalHeight = size(clusterResult, 1);
     totalWdith = size(clusterResult, 2);
-    for k = 1 : size(clusterResult, 3)
-        for j = 1 : totalWdith
-            for i = 1 : totalHeight
+    clusterDiff = zeros([totalHeight, totalWdith]);
+    for j = 1 : totalWdith
+        for i = 1 : totalHeight
+            sum = 0;
+            for k = 1 : size(clusterResult, 3)
                 a = clusterResult(i, j, k);
-                sum = 0;
                 for m = 1 : edgeWidth
                     for n = 1 : edgeWidth
                         if i > m && j > n
@@ -24,7 +24,7 @@ function clusterDiff = DiffClusterColor(clusterResult)
                             rightDown = 0;
                         end
                         if i + m <= totalHeight && j > n
-                            rightUp = abs(a - clusterResult(i + m, j - n, k))
+                            rightUp = abs(a - clusterResult(i + m, j - n, k));
                         else
                             rightUp = 0;
                         end
@@ -36,8 +36,11 @@ function clusterDiff = DiffClusterColor(clusterResult)
                         sum = sum + leftUp + rightDown + rightUp + leftDown;
                     end
                 end
-                clusterDiff(i, j, k) = sum;
             end
+            clusterDiff(i, j) = sum;
         end
     end
+
+    figure;
+    imagesc(clusterDiff);
 end
