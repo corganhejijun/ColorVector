@@ -10,10 +10,10 @@ colorDistance = ColorContour(fig);
 [clusterResult, outline] = ClusterColorContour(colorDistance);
 %clusterDiff = DiffClusterColor(clusterResult);
 weightOutline = WeightOutline(outline);
-%weightOutline = weightOutline ./ max(weightOutline(:));
+combineColor = CombineColorSection(weightOutline);
 
 %% 2. compute Hierarchical Regions
-ucmData = colorDistance;
+ucmData = E_oriented;
 if size(ucmData, 3) == 1
     for i = 2 : 8
         ucmData(:,:,i) = ucmData(:,:,1);

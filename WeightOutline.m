@@ -19,10 +19,18 @@ function outlineWeight = WeightOutline(outlines)
                 outlineWeight(:,:,k) = outlineWeight(:,:,k) + lengthMat;
             end
         end
-        %outlineWeight(:,:,k) = outlineWeight(:,:,k) ./ max(max(outlineWeight(:,:,k)));
+        outlineWeight(:,:,k) = outlineWeight(:,:,k) ./ max(max(outlineWeight(:,:,k)));
     end
     t = toc;
     fprintf('weight outline done: %1.2f sec\n', t);
+    
+    colorNames = {'white', 'red', 'green', 'blue', 'yellow', 'cyan', 'purple', 'black'};
+    figure;
+    for k = 1 : size(outlineWeight, 3)
+        subplot(2, 4, k);
+        imagesc(outlineWeight(:,:,k));
+        title(colorNames(k));
+    end
 
 %     radius = ceil(max([height, width]) / 100);
 %     expendOutline = zeros(height + 2*radius, width + 2*radius, channelNum);
