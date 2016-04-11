@@ -18,4 +18,4 @@ image(fig,'Parent',axes1,'CDataMapping','scaled','AlphaData',0.1);
 box(axes1,'on');
 axis(axes1,'tight');
 % Set the remaining axes properties
-set(axes1,'BoxStyle','full','Layer','top', 'ydir','reverse');
+set(axes1,'Layer','top', 'ydir','reverse');
