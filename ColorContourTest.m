@@ -11,7 +11,15 @@ colorDistance = ColorContour(fig);
 %clusterDiff = DiffClusterColor(clusterResult);
 weightOutline = WeightOutline(outline);
 combineColor = CombineColorSection(weightOutline);
-
+ShowCombineColor(combineColor);
+a = zeros(size(weightOutline, 1), size(weightOutline, 2));
+for i = 1 : length(combineColor)
+    a = a + combineColor{i}*i;
+    figure;imagesc(combineColor{i});
+end
+% for i = 1 : size(clusterResult, 3)
+%     figure;imagesc(clusterResult(:,:,i));
+% end
 %% 2. compute Hierarchical Regions
 ucmData = E_oriented;
 if size(ucmData, 3) == 1
