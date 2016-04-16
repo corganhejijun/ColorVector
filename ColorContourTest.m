@@ -8,17 +8,17 @@ fileName = '12003.jpg';
 fig = imread(fileName);
 colorDistance = ColorContour(fig);
 [clusterResult, outline] = ClusterColorContour(colorDistance);
-%clusterDiff = DiffClusterColor(clusterResult);
+% clusterDiff = DiffClusterColor(clusterResult);
 weightOutline = WeightOutline(outline);
 combineColor = CombineColorSection(weightOutline);
 ShowCombineColor(combineColor);
 a = zeros(size(weightOutline, 1), size(weightOutline, 2));
 for i = 1 : length(combineColor)
     a = a + combineColor{i}*i;
-    figure;imagesc(combineColor{i});
+%     figure;imagesc(combineColor{i});
 end
-% for i = 1 : size(clusterResult, 3)
-%     figure;imagesc(clusterResult(:,:,i));
+% for i = 1 : size(weightOutline, 3)
+%     figure;imagesc(weightOutline(:,:,i));
 % end
 %% 2. compute Hierarchical Regions
 ucmData = E_oriented;
