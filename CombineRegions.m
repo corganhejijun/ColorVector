@@ -1,8 +1,7 @@
 function [ result ] = CombineRegions( regions )
 % combine regions into one figure
-%   Detailed explanation goes here
     [height, width, channelCnt] = size(regions);
-    diffThreshold = height*width/1000;
+    diffThreshold = height*width/100;
     backgroundHoleThres = height*width/100;
     regionList = {};
     regionSizeList = [];

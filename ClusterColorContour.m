@@ -33,11 +33,9 @@ function [clusterResult, regions] = ClusterColorContour(contour)
     t = toc;
     fprintf('cluster color contour done: %1.2f sec\n', t);
     
-    colorNames = {'white', 'red', 'green', 'blue', 'yellow', 'cyan', 'purple', 'black'};
     figure;
     for k = 1 : channelCnt
         handle = subplot(2, 4, k);
         CreateClusterFigure(clusterResult(:,:,k), handle);
-        title(colorNames(k));
     end
 end
