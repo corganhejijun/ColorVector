@@ -15,11 +15,11 @@ function [ result ] = CombineRegions( regions )
             region1 = (region == j);
 
             % if region contain large holes, it would be background region
-            regionFill = imfill(region1, 'holes');
-            holeDiff = xor(region1, regionFill);
-            if (sum(holeDiff(:)) > backgroundHoleThres)
-                continue;
-            end
+%             regionFill = imfill(region1, 'holes');
+%             holeDiff = xor(region1, regionFill);
+%             if (sum(holeDiff(:)) > backgroundHoleThres)
+%                 continue;
+%             end
 
             found = false;
             for k = 1 : length(regionList)

@@ -1,6 +1,9 @@
 function [ centers ] = GmmCluster( img, k )
 % Get image color distribute centers using GMM
 % k is max cluster number
+    % color distance小于该距离，认为是同一种颜色
+    sameColorDistance = 10;
+
     [height, width, channel] = size(img);
     rgbVec = reshape(img, [height*width, channel]);
     if channel == 3
@@ -39,8 +42,21 @@ function [ centers ] = GmmCluster( img, k )
     t = toc;
     fprintf('GMM cluster %d main color done: %1.2f sec\n', n, t);
     
-    % TODO:centers有时会重复，应该能够去掉重复或相近值
-    centers = gmm.mu;
+    tmp = gmm.mu;
+    centers = [];
+    % centers有时会重复，应该能够去掉重复或相近值
+    for i = 1 : size(tmp, 1)
+        same = false;
+        for j = 1 : size(centers, 1)
+            if norm(tmp(i, :) - centers(j, :)) < sameColorDistance
+                same = true;
+                break;
+            end
+        end
+        if ~same
+            centers(size(centers, 1) + 1, :) = tmp(i, :);
+        end
+    end
     clusterData = cluster(gmm, rgbVec);
     figure;
     hold on;
