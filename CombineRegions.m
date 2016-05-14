@@ -1,8 +1,9 @@
-function [ result ] = CombineRegions( regions )
+function [ result, regionList ] = CombineRegions( regions )
 % combine regions into one figure
     [height, width, channelCnt] = size(regions);
     diffThreshold = height*width/100;
-    backgroundHoleThres = height*width/100;
+%     backgroundHoleThres = height*width/100;
+    backgroundRate = 0.9;
     regionList = {};
     regionSizeList = [];
     tic;
@@ -20,6 +21,10 @@ function [ result ] = CombineRegions( regions )
 %             if (sum(holeDiff(:)) > backgroundHoleThres)
 %                 continue;
 %             end
+            % if region bigger than background rate, it would be background region
+            if sum(sum(region1(:))) > backgroundRate * height * width
+                continue;
+            end
 
             found = false;
             for k = 1 : length(regionList)

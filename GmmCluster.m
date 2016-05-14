@@ -1,4 +1,4 @@
-function [ centers ] = GmmCluster( img, k )
+function [ centers ] = GmmCluster( img, k, showFig )
 % Get image color distribute centers using GMM
 % k is max cluster number
     % color distance小于该距离，认为是同一种颜色
@@ -7,8 +7,10 @@ function [ centers ] = GmmCluster( img, k )
     [height, width, channel] = size(img);
     rgbVec = reshape(img, [height*width, channel]);
     if channel == 3
-        figure;
-        scatter3(rgbVec(:,1), rgbVec(:,2), rgbVec(:,3));
+        if nargin > 2 && showFig
+            figure;
+            scatter3(rgbVec(:,1), rgbVec(:,2), rgbVec(:,3));
+        end
     else
         disp('image dimension error');
         return;
@@ -57,10 +59,14 @@ function [ centers ] = GmmCluster( img, k )
             centers(size(centers, 1) + 1, :) = tmp(i, :);
         end
     end
+    
+    if nargin == 2 || ~showFig
+        return;
+    end
     clusterData = cluster(gmm, rgbVec);
     figure;
     hold on;
-    for i = 1 : n
+    for i = 1 : size(centers, 1)
         cluster1 = (clusterData == i);
         scatter3(rgbVec(cluster1, 1), rgbVec(cluster1, 2), rgbVec(cluster1, 3), 10, centers(i, :)./255);
     end
