@@ -1,7 +1,13 @@
 %% 
 clear; close all; clc;
-fileName = '12003.jpg';
+fileName = '253027.jpg';
 fig = imread(fileName);
+%%
+DivideCluster(fig);
+
+%%
+ColorDistmap(fig);
+
 %% 通过聚类方法自动获取图片中的主要颜色种类
 [height, width, ~] = size(fig);
 % resize image short edge to 100px
