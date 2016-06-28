@@ -1,6 +1,8 @@
 %%
 clear; close all; clc;
-a = imread('42340051000005.jpg');
+%a = imread('images/test/100099.jpg');
+a = imread('12003.jpg');
+[height, width, channelCnt] = size(a);
 
 %%
 [idxMap, divideTree]= GmmBiDivide(a, true);
@@ -8,16 +10,23 @@ a = imread('42340051000005.jpg');
 %%
 close all;
 maxIdx = max(idxMap);
-[height, width, channelCnt] = size(a);
 imgList = reshape(a, height*width, channelCnt);
 segList = cell(maxIdx, 1);
 for i = 1 : maxIdx
+    if sum(idxMap==i) == 0
+        continue
+    end
     segImg = zeros(height*width, channelCnt);
     segImg(idxMap==i, :) = imgList(idxMap==i, :);
     segImg = reshape(segImg, height, width, channelCnt);
     figure; imagesc(segImg./255);
     segList{i} = segImg;
 end
+%%
+segs = {};
+segs{1} = labelSeg(reshape(idxMap, height, width));
+figure; imagesc(segs{1});
+figure; imagesc(segs{1} == 1);
 
 %%
 a = imresize(a,[64 NaN]);
