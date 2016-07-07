@@ -33,8 +33,10 @@ function [ labelImg ] = labelSeg( idxMap )
             continue;
         end
         imgMap = (resultImg == I(i));
-        % fill small holes
-        imgMap = ~bwareaopen(~imgMap, min_hole_area);
+        % fill zero index holes
+        imgMapFill = imfill(imgMap, 'holes');
+        imgMapholes = imgMapFill & (xor(imgMapFill, imgMap));
+        imgMap(imgMapholes == 1) = I(i);
         % add new region
         labelImg = labelImg + (imgMap & xor(imgMap, labelImg));
         imgMap = imdilate(imgMap, se);
@@ -49,6 +51,6 @@ function [ labelImg ] = labelSeg( idxMap )
         end
         labelImg = labelImg + (labelImg > 0);
     end
-    labelImg = labelImg + (labelImg == 0);
+    %labelImg = labelImg + (labelImg == 0);
 end
 

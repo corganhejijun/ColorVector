@@ -1,7 +1,7 @@
 %%
 clear; close all; clc;
-%a = imread('images/test/100099.jpg');
-a = imread('12003.jpg');
+a = imread('images/test/100099.jpg');
+%a = imread('253027.jpg');
 [height, width, channelCnt] = size(a);
 
 %%
@@ -26,7 +26,7 @@ end
 segs = {};
 segs{1} = labelSeg(reshape(idxMap, height, width));
 figure; imagesc(segs{1});
-figure; imagesc(segs{1} == 1);
+figure; imagesc(a);
 
 %%
 a = imresize(a,[64 NaN]);
@@ -42,7 +42,7 @@ options = statset('MaxIter',500);
 gmm = fitgmdist(vec,2,'Options',options);
 gmmIdx = cluster(gmm, vec);
 %%
-scatter3(vec(:,1), vec(:,2), vec(:, 3), (gmmIdx-1)*20+5, scatterColor, 'filled', 'MarkerEdgeColor','k');
+scatter3(vec(:,1), vec(:,2), vec(:, 3), 20, scatterColor, 'filled', 'MarkerEdgeColor','k');
 
 %%
 vec1 = vec;
