@@ -2,6 +2,7 @@
 clear; close all; clc;
 imgFolder = 'images/test/';
 outFolder = 'result/test/';
+showFolder = 'result/show/';
 
 %%
 imgFiles = dir([imgFolder, '*.jpg']);
@@ -20,4 +21,5 @@ for i = 1 : length(imgFiles)
     save([outFolder, name, '.mat'], 'segs');
     figure;subplot(1, 2 ,1);imagesc(img);
     subplot(1, 2, 2);imagesc(segs{1});
+    saveas(gcf, [showFolder, imgFiles(i).name], 'jpg');
 end

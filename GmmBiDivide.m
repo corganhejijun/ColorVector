@@ -4,8 +4,8 @@ function [ segMap, divideTree ] = GmmBiDivide( fig, showDivide )
     % lab color space range, L=[0, 100], a = [-128, 127], b = [-128, 127]
     figVec = reshape(rgb2lab(fig), height*width, channelCnt);
     % bigger than this threshold will be consider as same color
-    lu_thres = 10;
-    color_thres = 2*pi/30;
+    lu_thres = 20;
+    color_thres = 2*pi/7;
     max_biDivideDeepth = 5;
     max_imageLabelCnt = 20;
     max_isolatePixelCnt = 10;
@@ -97,15 +97,12 @@ function [ segMap, divideTree ] = GmmBiDivide( fig, showDivide )
                 afterDivide2(gmmIdx==maxIdx+1, :) = figList(gmmIdx==maxIdx+1, :);
                 afterDivide2 = reshape(afterDivide2, height, width, channelCnt);
                 afterDivide2 = afterDivide2/255;
-                figure;
-                %subplot(1,3,1);
+                subplot(1,3,1);
                 imagesc(beforeDivide);
-                figure;
-                %subplot(1,3,2);
+                subplot(1,3,2);
                 imagesc(afterDivide1);
                 title(['luDiff1=', num2str(lu_diff1), ' colorDiff1=', num2str(colorDiff1)]);
-                %subplot(1,3,3);
-                figure;
+                subplot(1,3,3);
                 imagesc(afterDivide2);
                 title(['lu_diff2=', num2str(lu_diff2), ' colorDiff2=', num2str(colorDiff2)]);
             end

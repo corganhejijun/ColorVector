@@ -2,7 +2,7 @@ function [ labelImg ] = labelSeg( idxMap )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
     max_label_area = 100;
-    min_hole_area = 10;
+    min_hole_area = 50;
     se = strel('disk',10); 
     same_area_ratio = 0.1;
     
@@ -35,10 +35,13 @@ function [ labelImg ] = labelSeg( idxMap )
         imgMap = (resultImg == I(i));
         % fill zero index holes
         imgMapFill = imfill(imgMap, 'holes');
-        imgMapholes = imgMapFill & (xor(imgMapFill, imgMap));
-        imgMap(imgMapholes == 1) = I(i);
+        imgMapholes = imgMapFill & ~imgMap;
+        bigholes = bwareaopen(imgMapholes, min_hole_area);
+        smallholes = imgMapholes & ~bigholes;
+        fillSmallholes = imgMap | smallholes;
+        imgMap(fillSmallholes == 1) = I(i);
         % add new region
-        labelImg = labelImg + (imgMap & xor(imgMap, labelImg));
+        labelImg = labelImg + (imgMap & ~labelImg);
         imgMap = imdilate(imgMap, se);
         % combine new regions
         for j = i+1 : length(I)
@@ -46,7 +49,7 @@ function [ labelImg ] = labelSeg( idxMap )
             diffMap = xor((nextMap & imgMap), nextMap);
             if sum(diffMap(:))/sum(nextMap(:)) < same_area_ratio
                 I(j) = -1;
-                labelImg = labelImg + (nextMap & xor(nextMap, labelImg));
+                labelImg = labelImg + (nextMap & ~labelImg);
             end
         end
         labelImg = labelImg + (labelImg > 0);

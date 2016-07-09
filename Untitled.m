@@ -1,7 +1,7 @@
 %%
 clear; close all; clc;
-a = imread('images/test/100099.jpg');
-%a = imread('253027.jpg');
+%a = imread('images/test/100080.jpg');
+a = imread('253027.jpg');
 [height, width, channelCnt] = size(a);
 
 %%
@@ -23,9 +23,9 @@ for i = 1 : maxIdx
     segList{i} = segImg;
 end
 %%
-segs = {};
-segs{1} = labelSeg(reshape(idxMap, height, width));
-figure; imagesc(segs{1});
+idxImg = reshape(idxMap, height, width);
+segs = labelSeg(idxImg);
+figure; imagesc(segs);
 figure; imagesc(a);
 
 %%
