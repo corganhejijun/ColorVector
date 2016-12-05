@@ -97,6 +97,7 @@ function [ segMap, divideTree ] = GmmBiDivide( fig, showDivide )
                 afterDivide2(gmmIdx==maxIdx+1, :) = figList(gmmIdx==maxIdx+1, :);
                 afterDivide2 = reshape(afterDivide2, height, width, channelCnt);
                 afterDivide2 = afterDivide2/255;
+                figure
                 subplot(1,3,1);
                 imagesc(beforeDivide);
                 subplot(1,3,2);

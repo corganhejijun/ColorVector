@@ -1,7 +1,7 @@
 %%
 clear; close all; clc;
 %a = imread('images/test/100080.jpg');
-a = imread('253027.jpg');
+a = imread('12003.jpg');
 [height, width, channelCnt] = size(a);
 
 %%
