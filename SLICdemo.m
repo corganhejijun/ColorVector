@@ -22,7 +22,7 @@
 %======================================================================
 %img = imread('someimage.jpg');
 clear; close all;
-img = imread('bee.jpg');
+img = imread('12003.jpg');
 [labels, numlabels] = slicmex(img,500,20);%numlabels is the same as number of superpixels
 region_borders = imdilate(labels,ones(3,3)) > imerode(labels,ones(3,3));
 figure;
@@ -30,14 +30,14 @@ imagesc(img);
 figure;
 imagesc(img);
 hold on;
-mask = ones(425, 640, 3);
+mask = ones(size(img));
 mask(:,:,1) = mask(:,:,1)*0.3;
 mask(:,:,2) = mask(:,:,2)*1;
 mask(:,:,3) = mask(:,:,3)*0.136;
 h = imagesc(mask);
 set(h, 'AlphaData', region_borders);
 hold off;
-avgImg = zeros(425, 640, 3);
+avgImg = zeros(size(img));
 img = im2double(img);
 for i = 0 : (numlabels-1)
     label = double(labels == i);
