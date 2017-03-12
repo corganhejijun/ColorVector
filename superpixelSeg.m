@@ -1,17 +1,16 @@
 clear; close all; clc;
-img = imread('12003.jpg');
+img = imread('images/ct1.jpg');
 [height, width, channelCnt] = size(img);
 
 %% superpixel
-[superPixel, numlabels] = slicmex(img,500,20);%numlabels is the same as number of superpixels
+[superPixel, numlabels] = slicomex(img,400);%numlabels is the same as number of superpixels
 
 %% Gmm divide
-[idxMap, divideTree]= GmmBiDivide(img, true);
+[idxMap, divideTree]= GmmBiDivideOld(img, false);
 idxImg = reshape(idxMap, height, width);
 segs = labelSeg(idxImg);
 figure; imagesc(segs);
-
-%%
+%% super pixel segment
 superPixelSeg = zeros(height, width);
 for i = 0 : (numlabels-1)
     label = double(superPixel == i);
@@ -29,9 +28,10 @@ for i = 0 : (numlabels-1)
     superPixelSeg = superPixelSeg + label * superPixelIdx;
 end
 
-%%
+%% gradian change on share edges between two regions
 maxIdx = max(superPixelSeg(:));
 se = strel('disk', 3);
+edgeThreshold = 10;
 for i = 0 : maxIdx - 1
     idxMap1 = superPixelSeg == i;
     if sum(idxMap1(:)) == 0
@@ -51,7 +51,15 @@ for i = 0 : maxIdx - 1
             mask = repmat(interMap, [1,1,3]);
             mask = uint8(mask);
             maskImg = img .* mask;
-            [gradX, gradY, gradZ] = gradient(double(maskImg));
+            [gradX, gradY, ~] = gradient(double(maskImg));
+            unzeroX = double(gradX ~= 0);
+            unzeroY = double(gradY ~= 0);
+            interCount = (sum(abs(gradX(:)))/sum(unzeroX(:)) + sum(abs(gradY(:)))/sum(unzeroY(:)))/2;
+            % merge idx i and j area
+            if interCount < edgeThreshold
+                idxMap2 = double(superPixelSeg == j) * (j - i);
+                superPixelSeg = superPixelSeg - idxMap2;
+            end
         end
     end
 end

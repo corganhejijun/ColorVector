@@ -2,15 +2,14 @@ function [ segMap, divideTree ] = GmmBiDivide( fig, showDivide )
 %
     [height, width, channelCnt] = size(fig);
     % lab color space range, L=[0, 100], a = [-128, 127], b = [-128, 127]
-    figVec = reshape(rgb2lab(fig), height*width, channelCnt);
+    labFig = rgb2lab(fig);
+    figVec = reshape(labFig, height*width, channelCnt);
     % bigger than this threshold will be consider as same color
     lu_thres = 20;
     color_thres = 2*pi/7;
     max_biDivideDeepth = 5;
-    max_imageLabelCnt = 20;
-    max_isolatePixelCnt = 10;
     divideTree = [];
-    erodeSE = strel('disk',10);
+    erodeSE = strel('disk',1);
 
     % store image idx mask that need to be divide
     needDivideIdx = 1;
@@ -57,22 +56,19 @@ function [ segMap, divideTree ] = GmmBiDivide( fig, showDivide )
             vec1 = tmpGmmIdx==needDivideIdx(i);
             vec2 = tmpGmmIdx==maxIdx+1;
             vecImg1 = reshape(vec1, height, width);
-            vecImg1 = imerode(vecImg1, erodeSE);
+            % vecImg1 = imerode(vecImg1, erodeSE);
             if sum(vecImg1(:)) == 0
                 continue;
             end
             %vecImg1 = bwareaopen(vecImg1, max_isolatePixelCnt);
             vecImg2 = reshape(vec2, height, width);
-            vecImg2 = imerode(vecImg2, erodeSE);
+            % vecImg2 = imerode(vecImg2, erodeSE);
             if sum(vecImg2(:)) == 0
                 continue;
             end
             gmmIdx = tmpGmmIdx;
-            %vecImg2 = bwareaopen(vecImg2, max_isolatePixelCnt);
-            [~, labelCnt1] = bwlabel(vecImg1);
-            [~, labelCnt2] = bwlabel(vecImg2);
-            vec1 = reshape(vecImg1, height*width, 1);
-            vec2 = reshape(vecImg2, height*width, 1);
+            vec1 = labFig([vecImg1; vecImg1; vecImg1]);%reshape(vecImg1, height*width, 1);
+            vec2 = labFig([vecImg2; vecImg2; vecImg2]); %reshape(vecImg2, height*width, 1);
             vec1 = figVec(vec1, :);
             vec2 = figVec(vec2, :);
             lu_diff1 = max(vec1(:,1)) - min(vec1(:,1));
